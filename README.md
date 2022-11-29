@@ -13,6 +13,7 @@ This is a react calculator.
 
 ## 💻 Project
 
+Still build the project.
 This a project of Inter Bootcamp from DIO.
 
 
