@@ -1,24 +1,92 @@
-import logo from './logo.svg';
-import './App.css';
+import Input from './components/Input';
+import Button from './components/Button';
+import { Container, Content, Row } from './styles';
+import { useState } from 'react';
 
 function App() {
+  const [currentNumber, setCurrentNumber] = useState('0')
+  const [firstNumber, setFirstNumber] = useState('0')
+  const [operation, setOperation] = useState('')
+
+  const handleOnClear = () => {
+    setCurrentNumber('0')
+    setFirstNumber('0')
+    setOperation('')
+  }
+
+  const handleAddNumber = (number) => {    
+    setCurrentNumber(prev => `${prev === '0' ? '' : prev} ${number}`)
+  }
+
+  const handleSumNumber = () => {
+    if(firstNumber === '0') {
+      setFirstNumber(String(currentNumber))
+      setCurrentNumber('0')
+      setOperation('+')
+    } else {
+      const sum = Number(firstNumber) + Number(currentNumber)
+      setCurrentNumber(String(sum))
+      setOperation('')
+    }
+  }
+
+  const handleMiusNumber = () => {
+    if(firstNumber === '0') {
+      setFirstNumber(String(currentNumber))
+      setCurrentNumber('0')
+      setOperation('-')
+    } else {
+      const sum = Number(firstNumber) - Number(currentNumber)
+      setCurrentNumber(String(sum))
+      setOperation('')
+    }
+  }
+
+  const handleEquals = () => {
+    if(!firstNumber !== '0' && operation !== '' && currentNumber !== '0') {
+      switch(operation)  {
+        case '+':
+          handleSumNumber();
+          break;
+        case '-':
+          handleMiusNumber();
+         break;
+        default: 
+          break;
+      }
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Content>
+        <Input value={currentNumber} />
+        <Row>
+          <Button label="x" onCLick={() => handleAddNumber('x')} />
+          <Button label="/" onCLick={() => handleAddNumber('/')} />
+          <Button label="C" onCLick={handleOnClear} />
+          <Button label="X" onCLick={() => handleAddNumber('X')} />
+        </Row>
+        <Row>
+          <Button label="7" onCLick={() => handleAddNumber('7')} />
+          <Button label="8" onCLick={() => handleAddNumber('8')} />
+          <Button label="9" onCLick={() => handleAddNumber('9')} />
+          <Button label="-" onCLick={handleMiusNumber} />
+        </Row>
+        <Row>
+          <Button label="4" onCLick={() => handleAddNumber('4')} />
+          <Button label="5" onCLick={() => handleAddNumber('5')} />
+          <Button label="6" onCLick={() => handleAddNumber('6')} />
+          <Button label="+" onCLick={handleSumNumber} />
+        </Row>
+        <Row>
+          <Button label="1" onCLick={() => handleAddNumber('1')} />
+          <Button label="2" onCLick={() => handleAddNumber('2')} />
+          <Button label="3" onCLick={() => handleAddNumber('3')} />
+          <Button label="=" onCLick={handleEquals} />
+        </Row>
+      </Content>      
+    </Container>
   );
 }
 
